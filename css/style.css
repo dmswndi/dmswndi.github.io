@@ -267,7 +267,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .badge { width: min(78%, 320px); height: auto; color: var(--ink); display: block; margin: 0 auto; }
 .badge-text { font-size: 11px; font-weight: 700; letter-spacing: 2px; fill: var(--ink); }
 @keyframes spin { to { transform: rotate(360deg); } }
-.badge:hover { animation: spin 14s linear infinite; }
+.badge { animation: spin 14s linear infinite; }
 
 .service-list { margin: 22px 0; }
 .service-list li {
@@ -411,6 +411,6 @@ html.native-scroll .section__inner {
 /* 모션 최소화 선호 사용자 */
 @media (prefers-reduced-motion: reduce) {
   [data-anim] { opacity: 1 !important; }
-  .badge:hover, .scroll-hint span::after { animation: none; }
+  .badge, .scroll-hint span::after { animation: none; }
   html.native-scroll { scroll-behavior: auto; }
 }
