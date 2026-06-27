@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>EUNJOO PET SALON — I Transform Your Pet</title>
+  <meta name="description" content="애견미용 그루밍 포토 포트폴리오. I transform your pet." />
+
+  <!-- Google Fonts: Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Swiper (MIT) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <!-- GLightbox (MIT) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== 고정 헤더 ===== -->
+  <header class="site-header">
+    <a class="brand" href="#">
+      <!-- 강아지 로고 아이콘 -->
+      <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M16 14c-3 0-6 2-7 6l-1 9c0 7 5 13 12 14v4c0 3 2 5 5 5h14c3 0 5-2 5-5v-4c7-1 12-7 12-14l-1-9c-1-4-4-6-7-6-2 0-4 1-5 3-3-2-7-3-11-3s-8 1-11 3c-1-2-3-3-5-3z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="25" cy="33" r="2.5" fill="currentColor"/>
+        <circle cx="39" cy="33" r="2.5" fill="currentColor"/>
+        <path d="M32 38v4M28 44c1.5 1.5 6.5 1.5 8 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-name">EUNJOO PET<br/>SAL<span class="accent">O</span>N</span>
+    </a>
+
+    <nav class="site-nav" aria-label="섹션 이동">
+      <a data-goto="0" class="is-active">HOME</a>
+      <a data-goto="1">GALLERY</a>
+      <a data-goto="2">SERVICES</a>
+      <a data-goto="3">CONTACT</a>
+    </nav>
+
+    <a class="site-url" href="#">WWW.EUNJOOPETSALON.COM</a>
+  </header>
+
+  <!-- 우측 섹션 도트 인디케이터 (JS가 채움) -->
+  <ul class="section-dots" aria-hidden="true"></ul>
+
+  <!-- ===== 풀페이지 세로 Swiper ===== -->
+  <div class="swiper fullpage" id="fullpage">
+    <div class="swiper-wrapper">
+
+      <!-- 1) HERO -->
+      <section class="swiper-slide section section--hero">
+        <div class="section__inner hero-grid">
+          <div class="hero-copy">
+            <h1 class="display" data-anim>I TRANSFORM<br/>YOUR PET</h1>
+            <p class="kicker" data-anim>
+              <span class="rule"></span>PET GROOMING BY<span class="rule"></span>
+            </p>
+            <p class="subhead" data-anim>TRUE ANIMAL&nbsp;L<span class="accent">♥</span>VER</p>
+
+            <div class="hero-cta" data-anim>
+              <p class="cta-small">CALL TO</p>
+              <p class="cta-big">SCHEDULE</p>
+              <p class="cta-mid">AN APPOINTMENT <strong>TODAY!</strong></p>
+              <a class="cta-phone accent" href="tel:1800555333">1800 555 333</a>
+            </div>
+          </div>
+
+          <figure class="hero-photo" data-anim>
+            <img src="https://picsum.photos/seed/groom-hero/900/1200?grayscale" alt="그루밍된 강아지" loading="eager" />
+          </figure>
+        </div>
+        <button class="scroll-hint" data-goto="1" aria-label="다음 섹션">SCROLL<span></span></button>
+      </section>
+
+      <!-- 2) GALLERY -->
+      <section class="swiper-slide section section--gallery">
+        <div class="section__inner">
+          <header class="section-head" data-anim>
+            <p class="kicker"><span class="rule"></span>PORTFOLIO<span class="rule"></span></p>
+            <h2 class="display display--sm">BEFORE &amp; AFTER</h2>
+            <p class="section-sub">완성된 그루밍 결과를 만나보세요</p>
+          </header>
+
+          <!-- 갤러리 가로 캐러셀 (JS가 gallery.json으로 채움) -->
+          <div class="swiper gallery-swiper" data-anim>
+            <div class="swiper-wrapper" id="gallery-track">
+              <!-- 슬라이드는 main.js가 동적으로 생성 -->
+            </div>
+            <div class="swiper-button-prev gallery-prev"></div>
+            <div class="swiper-button-next gallery-next"></div>
+            <div class="swiper-pagination gallery-pagination"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) SERVICES / ABOUT -->
+      <section class="swiper-slide section section--services">
+        <div class="section__inner services-grid">
+          <div class="badge-col" data-anim>
+            <!-- 원형 배지 -->
+            <svg class="badge" viewBox="0 0 200 200" aria-label="Gentle · Experienced · Reasonable rates">
+              <defs>
+                <path id="circlePath" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0" />
+              </defs>
+              <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="100" cy="100" r="78" fill="none" stroke="currentColor" stroke-width="1"/>
+              <text class="badge-text">
+                <textPath href="#circlePath" startOffset="0%">
+                  <tspan fill="var(--accent)">★</tspan> GENTLE <tspan fill="var(--accent)">★</tspan> EXPERIENCED <tspan fill="var(--accent)">★</tspan> REASONABLE RATES&nbsp;
+                </textPath>
+              </text>
+              <!-- 가위 아이콘 -->
+              <g class="badge-scissor accent-fill" transform="translate(100 105)">
+                <circle cx="-14" cy="14" r="7" fill="none" stroke="currentColor" stroke-width="3"/>
+                <circle cx="14" cy="14" r="7" fill="none" stroke="currentColor" stroke-width="3"/>
+                <path d="M-9 9 L18 -20 M9 9 L-18 -20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="services-copy">
+            <p class="kicker" data-anim><span class="rule"></span>WHAT I DO<span class="rule"></span></p>
+            <h2 class="display display--sm" data-anim>I TRANSFORM<br/>YOUR PET</h2>
+            <ul class="service-list">
+              <li data-anim><span class="accent">01</span> FULL GROOMING &amp; STYLING</li>
+              <li data-anim><span class="accent">02</span> BATH &amp; BLOW DRY</li>
+              <li data-anim><span class="accent">03</span> NAIL &amp; PAW CARE</li>
+              <li data-anim><span class="accent">04</span> BREED-SPECIFIC CUT</li>
+            </ul>
+            <p class="services-text" data-anim>
+              경험 많은 그루머가 반려동물의 컨디션과 견종 특성에 맞춰
+              섬세하게 케어합니다. 합리적인 가격, 부드러운 손길.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4) CONTACT -->
+      <section class="swiper-slide section section--contact">
+        <div class="section__inner contact-grid">
+          <div class="contact-disc" data-anim>
+            <p class="cta-small">CALL TO</p>
+            <p class="cta-big">SCHEDULE</p>
+            <p class="cta-mid">AN APPOINTMENT</p>
+            <p class="cta-today">TODAY!</p>
+            <a class="cta-phone accent" href="tel:1800555333">1800 555 333</a>
+          </div>
+
+          <div class="contact-info" data-anim>
+            <h2 class="display display--sm">GET IN<br/>TOUCH</h2>
+            <ul class="contact-list">
+              <li><span class="lbl">PHONE</span><a href="tel:1800555333">1800 555 333</a></li>
+              <li><span class="lbl">EMAIL</span><a href="mailto:hello@eunjoopetsalon.com">hello@eunjoopetsalon.com</a></li>
+              <li><span class="lbl">INSTAGRAM</span><a href="#" target="_blank" rel="noopener">@eunjoopetsalon</a></li>
+              <li><span class="lbl">ADDRESS</span><span>서울특별시 어딘가 1-2-3</span></li>
+            </ul>
+            <p class="copyright">© <span id="year"></span> EUNJOO PET SALON · TRUE ANIMAL L♥VER</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ===== Scripts ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

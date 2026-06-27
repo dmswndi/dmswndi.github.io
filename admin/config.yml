@@ -1,0 +1,52 @@
+# =========================================================
+# Decap CMS 설정
+# 아래 <...> 부분을 본인 값으로 바꾸세요. (README 참고)
+# =========================================================
+
+backend:
+  name: github
+  repo: dmswndi/portfolio                  # 예: hong/hong.github.io
+  branch: main
+  # GitHub Pages는 정적이라 OAuth 도우미가 필요합니다.
+  # Cloudflare Worker 등으로 배포한 OAuth 프록시 주소를 넣으세요.
+  base_url: https://<OAuth도우미주소>          # 예: https://petsalon-auth.<계정>.workers.dev
+  auth_endpoint: /auth                          # 대부분의 GitHub OAuth 프록시 기본값
+
+# 로컬 미리보기용(선택): `npx decap-server` 실행 후 admin 접속 시 로그인 없이 편집
+local_backend: true
+
+# 업로드된 이미지가 저장될 위치
+media_folder: "images/gallery"
+public_folder: "/images/gallery"
+
+# 한국어 UI
+locale: "ko"
+
+collections:
+  - name: "gallery"
+    label: "갤러리 사진"
+    label_singular: "사진"
+    description: "그루밍 사진을 추가/삭제/순서변경 합니다."
+    delete: false
+    files:
+      - name: "items"
+        label: "갤러리 목록"
+        file: "data/gallery.json"
+        description: "‘추가’를 눌러 사진을 올리고, 드래그로 순서를 바꿀 수 있습니다."
+        fields:
+          - label: "사진 목록"
+            name: "items"
+            widget: "list"
+            label_singular: "사진"
+            summary: "{{fields.caption}} ({{fields.category}})"
+            fields:
+              - { label: "사진", name: "image", widget: "image" }
+              - { label: "설명(캡션)", name: "caption", widget: "string", required: false, default: "" }
+              - label: "분류"
+                name: "category"
+                widget: "select"
+                options:
+                  - { label: "그루밍 후 (After)", value: "after" }
+                  - { label: "그루밍 전 (Before)", value: "before" }
+                  - { label: "스타일 (Style)", value: "style" }
+                default: "after"

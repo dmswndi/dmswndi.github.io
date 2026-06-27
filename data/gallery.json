@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "image": "https://picsum.photos/seed/groom1/800/1000?grayscale",
+      "caption": "토이푸들 풀 그루밍",
+      "category": "after"
+    },
+    {
+      "image": "https://picsum.photos/seed/groom2/800/1000?grayscale",
+      "caption": "비숑 라운드 컷",
+      "category": "style"
+    },
+    {
+      "image": "https://picsum.photos/seed/groom3/800/1000?grayscale",
+      "caption": "요크셔테리어 정리",
+      "category": "after"
+    },
+    {
+      "image": "https://picsum.photos/seed/groom4/800/1000?grayscale",
+      "caption": "말티즈 위생 미용",
+      "category": "before"
+    },
+    {
+      "image": "https://picsum.photos/seed/groom5/800/1000?grayscale",
+      "caption": "스피츠 스포팅 컷",
+      "category": "style"
+    },
+    {
+      "image": "https://picsum.photos/seed/groom6/800/1000?grayscale",
+      "caption": "포메라니안 곰돌이 컷",
+      "category": "after"
+    }
+  ]
+}
