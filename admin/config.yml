@@ -5,7 +5,7 @@
 
 backend:
   name: github
-  repo: dmswndi/portfolio                  # 예: hong/hong.github.io
+  repo: dmswndi/dmswndi.github.io          # 예: hong/hong.github.io
   branch: main
   # GitHub Pages는 정적이라 OAuth 도우미가 필요합니다.
   # Cloudflare Worker 등으로 배포한 OAuth 프록시 주소를 넣으세요.
