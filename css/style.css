@@ -233,8 +233,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .gallery-card {
   position: relative; display: block; flex: 0 0 auto;
-  width: clamp(260px, 30vw, 380px);
-  height: clamp(300px, 42vh, 460px);
+  width: clamp(250px, 28vw, 350px);
+  height: clamp(280px, 38vh, 410px);
   margin-right: clamp(14px, 1.5vw, 22px);
   overflow: hidden; background: #ddd;
 }
@@ -400,7 +400,7 @@ html.native-scroll .section__inner {
 /* ===================== 작은 폰 ===================== */
 @media (max-width: 480px) {
   .section__inner { padding-left: 18px; padding-right: 18px; }
-  .gallery-card { width: clamp(220px, 64vw, 300px); height: clamp(280px, 46svh, 380px); }
+  .gallery-card { width: clamp(210px, 60vw, 290px); height: clamp(260px, 42svh, 350px); }
   .cta-phone { font-size: 1.7rem; }
   .service-list li { font-size: 1rem; gap: 10px; }
   .contact-list a, .contact-list span { font-size: .98rem; }
