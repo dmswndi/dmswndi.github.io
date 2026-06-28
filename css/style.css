@@ -9,6 +9,8 @@
   --ink-soft: #6b6b6b;
   --dark: #2b2b2b;
   --accent: #e0392b;     /* 레드 포인트 */
+  --warm: #d98c5c;       /* 편안·교감 포인트(따뜻한 톤) */
+  --warm-soft: #fbf1e8;  /* 교감 강조 배경 */
   --line: #e3e3e3;
 
   --maxw: 1200px;
@@ -164,7 +166,26 @@ ul { list-style: none; margin: 0; padding: 0; }
   align-items: center;
 }
 .hero-copy .display { margin-bottom: 6px; }
-.subhead { margin-bottom: 26px; }
+.subhead { margin-bottom: 18px; }
+.hero-reassure {
+  position: relative;
+  margin: 0 0 26px;
+  padding: 14px 0 14px 18px;
+  max-width: 36ch;
+  font-size: clamp(.95rem, 1.3vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.85;
+  letter-spacing: .01em;
+  color: #5b5048;
+  border-left: 3px solid var(--warm);
+  background: linear-gradient(90deg, var(--warm-soft), transparent 86%);
+  border-radius: 0 10px 10px 0;
+}
+.hero-reassure .warm {
+  font-weight: 700;
+  color: var(--warm);
+  white-space: nowrap;
+}
 
 .hero-cta { margin-top: 14px; }
 .cta-small { font-size: .8rem; font-weight: 700; letter-spacing: .12em; margin: 0; }
