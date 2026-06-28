@@ -194,6 +194,30 @@ ul { list-style: none; margin: 0; padding: 0; }
 .cta-today { font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 900; margin: 2px 0; }
 .cta-phone { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: .02em; display: inline-block; }
 
+/* KakaoTalk 오픈채팅 버튼 */
+.kakao-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 8px;
+  padding: 12px 20px;
+  background: #fee500;
+  color: #3a1d1d;
+  border-radius: 999px;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 800;
+  letter-spacing: .01em;
+  line-height: 1;
+  box-shadow: 0 6px 18px rgba(254, 229, 0, .35);
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+.kakao-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(254, 229, 0, .5);
+}
+.kakao-btn__icon { width: 22px; height: 22px; fill: #3a1d1d; flex: none; }
+.cta-note { margin: 10px 0 0; font-size: .8rem; font-weight: 500; color: var(--ink-soft); letter-spacing: .02em; }
+
 .hero-photo {
   margin: 0;
   height: min(74vh, 620px);
