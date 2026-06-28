@@ -120,50 +120,72 @@
     }, 300);
   });
 
-  /* ---------- 5. 갤러리 렌더 + Swiper + Lightbox ---------- */
-  const track = document.getElementById("gallery-track");
+  /* ---------- 5. 갤러리 렌더: 2줄 자동 흐름(마퀴) + Lightbox ---------- */
+  const topTrack = document.getElementById("gallery-top");
+  const bottomTrack = document.getElementById("gallery-bottom");
+  const marqueeWrap = document.querySelector(".gallery-marquee");
   let lightbox = null;
+  const SECONDS_PER_CARD = 2; // 카드 1장이 지나가는 데 걸리는 시간(초)
+
+  function cardHTML(it, clone) {
+    const src = it.image || "";
+    const cap = (it.caption || "").replace(/"/g, "&quot;");
+    const cls = "gallery-card" + (clone ? " is-clone" : " glightbox");
+    const attrs = clone
+      ? 'aria-hidden="true" tabindex="-1"'
+      : 'data-gallery="grooming" data-glightbox="title: ' + cap + '"';
+    return (
+      '<a class="' + cls + '" href="' + src + '" ' + attrs + ">" +
+        '<img src="' + src + '" alt="' + cap + '" loading="lazy" />' +
+        (cap ? '<figcaption><span class="cap-title">' + cap + "</span></figcaption>" : "") +
+      "</a>"
+    );
+  }
+
+  // 한 줄을 채우고, 화면 폭보다 넓도록 반복 + 끊김 없는 루프용으로 2그룹 복제
+  function buildRow(track, items) {
+    const row = track.parentElement; // .marquee-row
+    if (!items.length) { row.style.display = "none"; return; }
+    row.style.display = "";
+
+    const liveUnit = items.map((it) => cardHTML(it, false)).join("");
+    const cloneUnit = items.map((it) => cardHTML(it, true)).join("");
+
+    track.innerHTML = liveUnit; // 1세트만 먼저 렌더해 폭 측정
+    requestAnimationFrame(() => {
+      const setW = track.scrollWidth || 1;
+      const contW = row.clientWidth || window.innerWidth;
+      const repeats = Math.max(1, Math.ceil(contW / setW) + 1);
+
+      let g1 = liveUnit, g2 = cloneUnit;
+      for (let i = 1; i < repeats; i++) { g1 += cloneUnit; g2 += cloneUnit; }
+      track.innerHTML =
+        '<div class="marquee-group">' + g1 + "</div>" +
+        '<div class="marquee-group">' + g2 + "</div>";
+
+      const totalCards = items.length * repeats;
+      track.style.setProperty("--marquee-dur", totalCards * SECONDS_PER_CARD + "s");
+    });
+  }
 
   function renderGallery(items) {
-    if (!items || !items.length) {
-      track.innerHTML =
-        '<div class="swiper-slide gallery-empty">등록된 사진이 없습니다. /admin 에서 사진을 추가해 주세요.</div>';
+    items = items || [];
+    if (!items.length) {
+      if (marqueeWrap)
+        marqueeWrap.innerHTML =
+          '<div class="gallery-empty">등록된 사진이 없습니다. /admin 에서 사진을 추가해 주세요.</div>';
       return;
     }
-
-    track.innerHTML = items
-      .map((it) => {
-        const src = it.image || "";
-        const cap = it.caption || "";
-        const cat = (it.category || "").toUpperCase();
-        return (
-          '<div class="swiper-slide">' +
-            '<a class="gallery-card glightbox" href="' + src + '"' +
-               ' data-gallery="grooming" data-glightbox="title: ' + cap + '">' +
-              '<img src="' + src + '" alt="' + cap + '" loading="lazy" />' +
-              "<figcaption>" +
-                (cat ? '<span class="cap-cat">' + cat + "</span><br/>" : "") +
-                '<span class="cap-title">' + cap + "</span>" +
-              "</figcaption>" +
-            "</a>" +
-          "</div>"
-        );
-      })
-      .join("");
-
-    new Swiper(".gallery-swiper", {
-      slidesPerView: "auto",
-      spaceBetween: 22,
-      grabCursor: true,
-      speed: 600,
-      navigation: { nextEl: ".gallery-next", prevEl: ".gallery-prev" },
-      pagination: { el: ".gallery-pagination", clickable: true },
-      breakpoints: { 861: { spaceBetween: 30 } },
-      nested: true, // 풀페이지(세로) 안의 가로 스와이프 충돌 방지(데스크톱)
-    });
+    const top = items.filter((it) => (it.row || "top") !== "bottom");
+    const bottom = items.filter((it) => (it.row || "top") === "bottom");
+    buildRow(topTrack, top);
+    buildRow(bottomTrack, bottom);
 
     if (lightbox) lightbox.destroy();
-    lightbox = GLightbox({ selector: ".glightbox", loop: true, touchNavigation: true });
+    // buildRow가 rAF 안에서 DOM을 채우므로, 그 다음 프레임에 라이트박스 바인딩
+    requestAnimationFrame(() => {
+      lightbox = GLightbox({ selector: ".glightbox", loop: true, touchNavigation: true });
+    });
   }
 
   fetch("data/gallery.json", { cache: "no-store" })

@@ -1,34 +1,34 @@
 {
   "items": [
     {
-      "image": "/images/gallery/비숑캔디컷.png",
-      "caption": "비숑 캔디컷 ",
-      "category": "style"
+      "image": "/images/gallery/비숑캔디컷.png",
+      "caption": "비숑 캔디컷",
+      "row": "top"
     },
     {
-      "image": "/images/gallery/비숑귀툭.jpg",
+      "image": "/images/gallery/비숑귀툭.jpg",
       "caption": "비숑 귀툭튀컷",
-      "category": "style"
+      "row": "bottom"
     },
     {
-      "image": "/images/gallery/꼬똥전체.jpg",
+      "image": "/images/gallery/꼬똥전체.jpg",
       "caption": "꼬똥 드 툴레아 가위컷",
-      "category": "style"
+      "row": "top"
     },
     {
       "image": "/images/gallery/img_7658.png",
-      "caption": "말티즈 스포팅 ",
-      "category": "style"
+      "caption": "말티즈 스포팅",
+      "row": "bottom"
     },
     {
       "image": "/images/gallery/img_3146.jpg",
       "caption": "말티즈 여신컷",
-      "category": "style"
+      "row": "top"
     },
     {
       "image": "/images/gallery/img_0674.jpg",
       "caption": "말티푸 귀툭튀컷",
-      "category": "style"
+      "row": "bottom"
     }
   ]
 }

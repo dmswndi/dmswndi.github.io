@@ -38,15 +38,14 @@ collections:
             name: "items"
             widget: "list"
             label_singular: "사진"
-            summary: "{{fields.caption}} ({{fields.category}})"
+            summary: "{{fields.caption}} ({{fields.row}})"
             fields:
               - { label: "사진", name: "image", widget: "image" }
               - { label: "설명(캡션)", name: "caption", widget: "string", required: false, default: "" }
-              - label: "분류"
-                name: "category"
+              - label: "슬라이드 줄 위치"
+                name: "row"
                 widget: "select"
                 options:
-                  - { label: "그루밍 후 (After)", value: "after" }
-                  - { label: "그루밍 전 (Before)", value: "before" }
-                  - { label: "스타일 (Style)", value: "style" }
-                default: "after"
+                  - { label: "윗줄 (왼쪽으로 흐름)", value: "top" }
+                  - { label: "아랫줄 (오른쪽으로 흐름)", value: "bottom" }
+                default: "top"

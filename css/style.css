@@ -212,45 +212,43 @@ ul { list-style: none; margin: 0; padding: 0; }
 .section-head .kicker { justify-content: center; }
 .section-sub { color: var(--ink-soft); font-size: .9rem; letter-spacing: .04em; margin: 8px 0 0; }
 
-.gallery-swiper { width: 100%; padding-bottom: 46px; }
-.gallery-swiper .swiper-slide {
-  width: clamp(240px, 30vw, 340px);
-  height: clamp(300px, 46vh, 460px);
+/* 2줄 자동 흐름(마퀴) 갤러리 */
+.gallery-marquee {
+  display: flex; flex-direction: column;
+  gap: clamp(14px, 2vh, 22px);
+  width: 100%;
 }
+.marquee-row { overflow: hidden; width: 100%; }
+.marquee-track {
+  display: flex; width: max-content;
+  animation: marquee-left var(--marquee-dur, 40s) linear infinite;
+  will-change: transform;
+}
+.marquee-group { display: flex; }
+.marquee-row--bottom .marquee-track { animation-name: marquee-right; }
+.gallery-marquee:hover .marquee-track { animation-play-state: paused; }
+
+@keyframes marquee-left  { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+@keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
+
 .gallery-card {
-  position: relative;
-  display: block;
-  width: 100%; height: 100%;
-  overflow: hidden;
-  background: #ddd;
+  position: relative; display: block; flex: 0 0 auto;
+  width: clamp(190px, 24vw, 280px);
+  height: clamp(150px, 26vh, 230px);
+  margin-right: clamp(14px, 1.5vw, 22px);
+  overflow: hidden; background: #ddd;
 }
 .gallery-card figcaption {
   position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 16px;
+  padding: 14px;
   background: linear-gradient(transparent, rgba(0,0,0,.72));
   color: #fff;
-  transform: translateY(8px);
-  opacity: 0;
+  transform: translateY(8px); opacity: 0;
   transition: all .4s var(--ease);
 }
 .gallery-card:hover figcaption { transform: translateY(0); opacity: 1; }
 .gallery-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
-.gallery-card .cap-cat {
-  display: inline-block;
-  font-size: .62rem; font-weight: 700; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--accent);
-  background: #fff; padding: 3px 8px; margin-bottom: 7px;
-}
-.gallery-card .cap-title { font-size: .92rem; font-weight: 600; }
-
-.gallery-swiper .swiper-button-next,
-.gallery-swiper .swiper-button-prev {
-  color: var(--ink);
-  --swiper-navigation-size: 26px;
-}
-.gallery-swiper .swiper-button-next:hover,
-.gallery-swiper .swiper-button-prev:hover { color: var(--accent); }
-.gallery-swiper .swiper-pagination-bullet-active { background: var(--accent); }
+.gallery-card .cap-title { font-size: .9rem; font-weight: 600; }
 
 .gallery-empty {
   text-align: center; color: var(--ink-soft);
@@ -402,7 +400,7 @@ html.native-scroll .section__inner {
 /* ===================== 작은 폰 ===================== */
 @media (max-width: 480px) {
   .section__inner { padding-left: 18px; padding-right: 18px; }
-  .gallery-swiper .swiper-slide { width: 80vw; height: 56svh; }
+  .gallery-card { width: clamp(150px, 52vw, 220px); height: clamp(150px, 30svh, 210px); }
   .cta-phone { font-size: 1.7rem; }
   .service-list li { font-size: 1rem; gap: 10px; }
   .contact-list a, .contact-list span { font-size: .98rem; }
@@ -412,5 +410,7 @@ html.native-scroll .section__inner {
 @media (prefers-reduced-motion: reduce) {
   [data-anim] { opacity: 1 !important; }
   .badge, .scroll-hint span::after { animation: none; }
+  .marquee-track { animation: none; }
+  .marquee-row { overflow-x: auto; }
   html.native-scroll { scroll-behavior: auto; }
 }

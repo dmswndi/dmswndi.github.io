@@ -80,18 +80,18 @@
         <div class="section__inner">
           <header class="section-head" data-anim>
             <p class="kicker"><span class="rule"></span>PORTFOLIO<span class="rule"></span></p>
-            <h2 class="display display--sm">BEFORE &amp; AFTER</h2>
+            <h2 class="display display--sm">STYLE</h2>
             <p class="section-sub">완성된 그루밍 결과를 만나보세요</p>
           </header>
 
-          <!-- 갤러리 가로 캐러셀 (JS가 gallery.json으로 채움) -->
-          <div class="swiper gallery-swiper" data-anim>
-            <div class="swiper-wrapper" id="gallery-track">
-              <!-- 슬라이드는 main.js가 동적으로 생성 -->
+          <!-- 갤러리: 2줄 자동 흐름(마퀴) — JS가 gallery.json으로 채움 -->
+          <div class="gallery-marquee" data-anim>
+            <div class="marquee-row marquee-row--top">
+              <div class="marquee-track" id="gallery-top"></div>
             </div>
-            <div class="swiper-button-prev gallery-prev"></div>
-            <div class="swiper-button-next gallery-next"></div>
-            <div class="swiper-pagination gallery-pagination"></div>
+            <div class="marquee-row marquee-row--bottom">
+              <div class="marquee-track" id="gallery-bottom"></div>
+            </div>
           </div>
         </div>
       </section>
