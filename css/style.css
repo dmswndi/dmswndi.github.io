@@ -224,6 +224,20 @@ ul { list-style: none; margin: 0; padding: 0; }
 .kakao-btn:hover .kakao-btn__heart { transform: scale(1.2); }
 .cta-note { margin: 10px 0 0; font-size: .8rem; font-weight: 500; color: var(--ink-soft); letter-spacing: .02em; }
 
+/* 카카오톡 플로팅 버튼 (기본 숨김 → 모바일에서 노출) */
+.kakao-fab {
+  display: none;
+  position: fixed;
+  right: 16px; bottom: 18px;
+  width: 58px; height: 58px;
+  align-items: center; justify-content: center;
+  background: #fee500;
+  border-radius: 50%;
+  box-shadow: 0 8px 22px rgba(0,0,0,.28);
+  z-index: 60;
+}
+.kakao-fab svg { width: 32px; height: 32px; fill: #3a1d1d; }
+
 .hero-photo {
   margin: 0;
   height: min(74vh, 620px);
@@ -433,10 +447,9 @@ html.native-scroll .section__inner {
   .display { font-size: clamp(2.3rem, 9vw, 3.6rem); }
 
   .badge { width: 190px; margin: 0 auto 6px; }
-  /* 데스크탑처럼 원형 디스크 안에 카카오 버튼이 들어가도록 충분한 크기 유지 */
-  .contact-disc { width: min(84vw, 300px); margin: 0 auto 18px; padding: 26px; }
-  /* 모바일: '은주쌤 예약하기' → '은주쌤 예약' */
-  .contact-disc .kakao-btn__more { display: none; }
+  /* 모바일: 하단 검정 섹션의 START A CHAT/KAKAO 디스크 숨기고 플로팅 버튼으로 대체 */
+  .contact-disc { display: none; }
+  .kakao-fab { display: inline-flex; }
   .contact-list li { grid-template-columns: 96px 1fr; }
   .scroll-hint { display: none; }
 
