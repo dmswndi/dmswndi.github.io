@@ -9,7 +9,7 @@ backend:
   branch: main
   # GitHub Pages는 정적이라 OAuth 도우미가 필요합니다.
   # Cloudflare Worker 등으로 배포한 OAuth 프록시 주소를 넣으세요.
-  base_url: https://<OAuth도우미주소>          # 예: https://petsalon-auth.<계정>.workers.dev
+  base_url: https://gentle-unit-bd1d.dmswndi3153.workers.dev
   auth_endpoint: /auth                          # 대부분의 GitHub OAuth 프록시 기본값
 
 # 로컬 미리보기용(선택): `npx decap-server` 실행 후 admin 접속 시 로그인 없이 편집
