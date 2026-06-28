@@ -125,7 +125,7 @@
   const bottomTrack = document.getElementById("gallery-bottom");
   const marqueeWrap = document.querySelector(".gallery-marquee");
   let lightbox = null;
-  const SECONDS_PER_CARD = 2; // 카드 1장이 지나가는 데 걸리는 시간(초)
+  const SECONDS_PER_CARD = 3; // 카드 1장이 지나가는 데 걸리는 시간(초) — 클수록 느림
 
   function cardHTML(it, clone) {
     const src = it.image || "";
