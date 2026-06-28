@@ -218,7 +218,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   transition: transform .2s var(--ease), box-shadow .2s var(--ease);
 }
 .kakao-btn__icon svg { width: 22px; height: 22px; fill: #3a1d1d; }
-.kakao-btn__text { display: inline-flex; align-items: center; gap: 4px; }
+.kakao-btn__text { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
 .kakao-btn__heart { color: var(--accent); font-size: .9em; transition: transform .2s var(--ease); }
 .kakao-btn:hover .kakao-btn__icon { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(254, 229, 0, .55); }
 .kakao-btn:hover .kakao-btn__heart { transform: scale(1.2); }
@@ -365,7 +365,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .contact-list a, .contact-list span { font-size: 1.05rem; font-weight: 500; }
 .contact-list a:hover { color: var(--accent); }
-.copyright { margin-top: 28px; font-size: .72rem; letter-spacing: .12em; color: rgba(255,255,255,.5); }
+.copyright { margin-top: 28px; font-size: clamp(.58rem, 2.6vw, .72rem); letter-spacing: .1em; white-space: nowrap; color: rgba(255,255,255,.5); }
 
 /* ================== Reveal animation base ================== */
 /* JS가 켜졌을 때만 숨김 → JS 실패 시에도 콘텐츠는 항상 보임(안전망) */
@@ -433,7 +433,8 @@ html.native-scroll .section__inner {
   .display { font-size: clamp(2.3rem, 9vw, 3.6rem); }
 
   .badge { width: 190px; margin: 0 auto 6px; }
-  .contact-disc { width: 230px; margin: 0 auto 18px; }
+  /* 데스크탑처럼 원형 디스크 안에 카카오 버튼이 들어가도록 충분한 크기 유지 */
+  .contact-disc { width: min(84vw, 300px); margin: 0 auto 18px; padding: 26px; }
   .contact-list li { grid-template-columns: 96px 1fr; }
   .scroll-hint { display: none; }
 
