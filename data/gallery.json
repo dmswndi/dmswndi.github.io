@@ -16,19 +16,19 @@
       "category": "style"
     },
     {
-      "image": "https://picsum.photos/seed/groom4/800/1000?grayscale",
-      "caption": "말티즈 위생 미용",
-      "category": "before"
-    },
-    {
-      "image": "https://picsum.photos/seed/groom5/800/1000?grayscale",
-      "caption": "스피츠 스포팅 컷",
+      "image": "/images/gallery/img_7658.png",
+      "caption": "말티즈 스포팅 ",
       "category": "style"
     },
     {
-      "image": "https://picsum.photos/seed/groom6/800/1000?grayscale",
-      "caption": "포메라니안 곰돌이 컷",
-      "category": "after"
+      "image": "/images/gallery/img_3146.jpg",
+      "caption": "말티즈 여신컷",
+      "category": "style"
+    },
+    {
+      "image": "/images/gallery/img_0674.jpg",
+      "caption": "말티푸 귀툭튀컷",
+      "category": "style"
     }
   ]
 }
