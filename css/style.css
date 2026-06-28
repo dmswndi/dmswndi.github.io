@@ -187,6 +187,16 @@ ul { list-style: none; margin: 0; padding: 0; }
   white-space: nowrap;
 }
 
+/* HERO 잠자는 강아지 — PET GROOMING BY 글자 위, 왼쪽 정렬 */
+.hero-pet {
+  width: clamp(113px, 10.64vw, 157px);  /* 추가 40% 확대 */
+  height: clamp(71px, 6.62vw, 97px);    /* 위아래 여백 크롭(약 62%) */
+  overflow: hidden;
+  margin: 0 0 -4px -8px;
+  pointer-events: none;
+}
+.hero-pet svg { display: block; }
+
 .hero-cta { margin-top: 14px; }
 .cta-small { font-size: .8rem; font-weight: 700; letter-spacing: .12em; margin: 0; }
 .cta-big   { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900; letter-spacing: .04em; margin: 2px 0; }

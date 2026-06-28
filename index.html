@@ -58,6 +58,7 @@
       <section class="swiper-slide section section--hero">
         <div class="section__inner hero-grid">
           <div class="hero-copy">
+            <div class="hero-pet" id="hero-pet" role="img" aria-label="잠자는 강아지 일러스트"></div>
             <p class="kicker" data-anim>
               <span class="rule"></span>PET GROOMING BY<span class="rule"></span>
             </p>
@@ -191,6 +192,23 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js"></script>
   <script src="js/main.js?v=3"></script>
+  <script>
+    // HERO 잠자는 강아지 Lottie
+    (function () {
+      var el = document.getElementById('hero-pet');
+      if (!el || !window.lottie) return;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      lottie.loadAnimation({
+        container: el,
+        renderer: 'svg',
+        loop: !reduce,
+        autoplay: !reduce,
+        path: 'lottie/puppy-sleeping.json',
+        rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
+      });
+    })();
+  </script>
 </body>
 </html>
