@@ -435,6 +435,8 @@ html.native-scroll .section__inner {
   .badge { width: 190px; margin: 0 auto 6px; }
   /* 데스크탑처럼 원형 디스크 안에 카카오 버튼이 들어가도록 충분한 크기 유지 */
   .contact-disc { width: min(84vw, 300px); margin: 0 auto 18px; padding: 26px; }
+  /* 모바일: '은주쌤 예약하기' → '은주쌤 예약' */
+  .contact-disc .kakao-btn__more { display: none; }
   .contact-list li { grid-template-columns: 96px 1fr; }
   .scroll-hint { display: none; }
 
