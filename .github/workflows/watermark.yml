@@ -1,0 +1,49 @@
+name: Watermark gallery images
+
+# admin(Decap CMS)에서 사진을 저장하면 images/gallery 가 변경되고,
+# 이 워크플로가 자동으로 워터마크를 구워 다시 커밋한다.
+# (기본 GITHUB_TOKEN 으로 push 하므로 워크플로가 다시 트리거되지 않음)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'images/gallery/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: watermark-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  watermark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core
+          pip install --quiet Pillow
+
+      - name: Bake watermark on new images
+        run: python scripts/watermark.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add images/gallery
+          if git diff --cached --quiet; then
+            echo "변경 없음 — 워터마크할 새 이미지 없음"
+          else
+            git commit -m "chore: auto-watermark new gallery images [bot]"
+            git push
+          fi
