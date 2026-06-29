@@ -1,9 +1,8 @@
 /* =========================================================
    EUNJOO PET SALON — interactions
-   - 데스크톱(마우스): 풀페이지 세로 Swiper (섹션 슬라이드)
-   - 모바일/태블릿(터치·좁은 화면): 네이티브 세로 스크롤 + 스크롤 스냅
-   - 갤러리 가로 Swiper + GLightbox 확대 (공통)
-   - 진입 애니메이션 / 활성 표시 (두 모드 모두 지원)
+   - 전 기기 공통: 네이티브 세로 스크롤(스냅·풀페이지 스와이프 없음)
+   - 갤러리 가로 마퀴 + GLightbox 확대
+   - 진입 애니메이션 / 헤더·도트 활성 표시 (IntersectionObserver)
    ========================================================= */
 
 (function () {
@@ -11,8 +10,6 @@
 
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const hasGSAP = typeof window.gsap !== "undefined";
-  const NATIVE_MQ = "(max-width: 1024px), (pointer: coarse)";
-  const useNative = window.matchMedia(NATIVE_MQ).matches;
 
   const root = document.documentElement;
   root.classList.add("js-ready"); // 이 시점부터 [data-anim] 숨김 활성화(안전망)
@@ -54,70 +51,33 @@
     document.body.classList.toggle("on-dark", index === sections.length - 1);
   }
 
-  /* ---------- 4. 모드별 섹션 전환 ---------- */
-  let fullpage = null;
+  /* ---------- 4. 섹션 전환: 자연 스크롤(전 기기 공통) ---------- */
+  // 풀페이지 스와이프/스냅 제거 → 스크롤한 만큼 자유롭게 이동.
+  // 진입 애니메이션과 헤더/도트 활성화는 IntersectionObserver로 처리.
+  const animObserver = new IntersectionObserver(
+    (entries) => entries.forEach((e) => { if (e.isIntersecting) animate(e.target); }),
+    { threshold: 0.2 }
+  );
+  const activeObserver = new IntersectionObserver(
+    (entries) => entries.forEach((e) => {
+      if (e.isIntersecting && e.intersectionRatio >= 0.5) setActive(sections.indexOf(e.target));
+    }),
+    { threshold: [0.5] }
+  );
+  sections.forEach((s) => { animObserver.observe(s); activeObserver.observe(s); });
+  animate(sections[0]); // 첫 섹션 즉시 노출(IO 지연 대비)
 
-  if (useNative) {
-    /* 모바일/태블릿: 네이티브 스크롤 */
-    root.classList.add("native-scroll");
-
-    const animObserver = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) animate(e.target); }),
-      { threshold: 0.2 }
-    );
-    const activeObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting && e.intersectionRatio >= 0.5) {
-            setActive(sections.indexOf(e.target));
-          }
-        });
-      },
-      { threshold: [0.5] }
-    );
-    sections.forEach((s) => { animObserver.observe(s); activeObserver.observe(s); });
-
-    // 첫 섹션 즉시 노출(IO 지연 대비)
-    animate(sections[0]);
-  } else {
-    /* 데스크톱: 풀페이지 세로 Swiper */
-    fullpage = new Swiper("#fullpage", {
-      direction: "vertical",
-      slidesPerView: 1,
-      speed: 850,
-      mousewheel: { thresholdDelta: 12, releaseOnEdges: true },
-      keyboard: { enabled: true },
-      touchReleaseOnEdges: true,
-      on: {
-        init(sw) { animate(sw.slides[sw.activeIndex]); setActive(0); },
-        slideChangeTransitionStart(sw) {
-          animate(sw.slides[sw.activeIndex]);
-          setActive(sw.activeIndex);
-        },
-      },
-    });
-  }
-
-  /* 섹션 이동 (nav / dots / scroll-hint) */
+  /* 섹션 이동 (nav / dots / scroll-hint) — 부드러운 스크롤 */
   function goTo(i) {
-    if (fullpage) fullpage.slideTo(i);
-    else sections[i].scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth" });
+    if (sections[i]) {
+      sections[i].scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth" });
+    }
   }
   document.querySelectorAll("[data-goto]").forEach((el) => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
       goTo(parseInt(el.dataset.goto, 10));
     });
-  });
-
-  /* 화면 회전/리사이즈로 모드가 바뀌면 한 번 새로고침해 깔끔히 재구성 */
-  let resizeTimer;
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      const nowNative = window.matchMedia(NATIVE_MQ).matches;
-      if (nowNative !== useNative) window.location.reload();
-    }, 300);
   });
 
   /* ---------- 5. 갤러리 렌더: 2줄 자동 흐름(마퀴) + Lightbox ---------- */

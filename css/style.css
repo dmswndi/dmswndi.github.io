@@ -25,13 +25,13 @@
 
 html, body {
   margin: 0;
-  height: 100%;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;
-  overflow: hidden;            /* 풀페이지 스와이프가 스크롤 담당 */
+  overflow-x: hidden;          /* 가로 스크롤만 차단, 세로는 자연 스크롤 */
 }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; margin: 0; padding: 0; }
@@ -143,10 +143,17 @@ ul { list-style: none; margin: 0; padding: 0; }
   transform: scale(1.25);
 }
 
-/* ================== Fullpage / sections ================== */
-.fullpage { width: 100%; height: 100%; }
+/* ================== Fullpage / sections (자연 스크롤) ================== */
+.fullpage { width: 100%; }
+.fullpage > .swiper-wrapper { display: block; }
 
-.section { height: 100%; display: flex; flex-direction: column; }
+/* 각 섹션은 한 화면 높이로 보이되, 스냅 없이 자유롭게 스크롤 */
+.section {
+  min-height: 100vh;          /* fallback */
+  min-height: 100svh;         /* 모바일 주소창 반영 */
+  display: flex;
+  flex-direction: column;
+}
 .section__inner {
   width: 100%;
   max-width: var(--maxw);
@@ -405,33 +412,6 @@ body.on-dark .site-nav a { color: rgba(255,255,255,.55); }
 body.on-dark .site-nav a:hover,
 body.on-dark .site-nav a.is-active { color: #fff; }
 
-/* =========================================================
-   모바일/태블릿: 풀페이지 제스처 대신 "네이티브 세로 스크롤"
-   (터치에서 섹션 내부 콘텐츠까지 안전하게 스크롤 가능)
-   ========================================================= */
-html.native-scroll,
-html.native-scroll body { height: auto; overflow-x: hidden; overflow-y: visible; }
-html.native-scroll {
-  scroll-snap-type: y proximity;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-}
-html.native-scroll .fullpage { height: auto; overflow: visible; }
-html.native-scroll #fullpage > .swiper-wrapper {
-  display: block; height: auto; transform: none !important;
-}
-html.native-scroll .section {
-  height: auto;
-  min-height: 100vh;        /* fallback */
-  min-height: 100svh;       /* 모바일 주소창 반영 */
-  scroll-snap-align: start;
-}
-html.native-scroll .section__inner {
-  min-height: 100vh;
-  min-height: 100svh;
-  overflow: visible;
-}
-
 /* ================== 태블릿 (가로 2단 유지) ================== */
 @media (max-width: 1024px) {
   :root { --header-h: 84px; }
@@ -492,5 +472,5 @@ html.native-scroll .section__inner {
   .badge, .scroll-hint span::after { animation: none; }
   .marquee-track { animation: none; }
   .marquee-row { overflow-x: auto; }
-  html.native-scroll { scroll-behavior: auto; }
+  html { scroll-behavior: auto; }
 }
