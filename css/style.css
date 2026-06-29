@@ -470,7 +470,8 @@ body.on-dark .site-nav a.is-active { color: #fff; }
 @media (prefers-reduced-motion: reduce) {
   [data-anim] { opacity: 1 !important; }
   .badge, .scroll-hint span::after { animation: none; }
-  .marquee-track { animation: none; }
-  .marquee-row { overflow-x: auto; }
   html { scroll-behavior: auto; }
+  /* 갤러리 마퀴는 핵심 콘텐츠라 유지하되 속도만 살짝 늦춤 + 손으로 스크롤도 가능 */
+  .marquee-track { animation-duration: calc(var(--marquee-dur, 40s) * 1.6); }
+  .marquee-row { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
