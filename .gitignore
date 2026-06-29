@@ -7,3 +7,6 @@
 # 에디터/임시
 *.log
 node_modules/
+
+# 워터마크 원본 백업(비공개 — 공개 사이트엔 워터마크본만 노출)
+images/gallery/_originals/

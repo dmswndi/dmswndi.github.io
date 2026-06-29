@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=7" />
+  <link rel="stylesheet" href="css/style.css?v=8" />
 </head>
 <body>
 
@@ -202,7 +202,10 @@
       <button class="img-modal__close" type="button" aria-label="닫기" data-close>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
       </button>
-      <img class="img-modal__img" id="img-modal-img" src="" alt="" />
+      <div class="img-modal__figure">
+        <img class="img-modal__img" id="img-modal-img" src="" alt="" />
+        <span class="img-modal__wm" aria-hidden="true"></span>
+      </div>
       <span class="img-modal__tag" id="img-modal-tag"></span>
     </div>
   </div>
@@ -210,7 +213,7 @@
   <!-- ===== Scripts ===== -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js"></script>
-  <script src="js/main.js?v=7"></script>
+  <script src="js/main.js?v=8"></script>
   <script>
     // HERO 잠자는 강아지 Lottie
     (function () {

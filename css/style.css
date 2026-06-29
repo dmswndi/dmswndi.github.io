@@ -380,6 +380,7 @@ img {
   max-width: 100%;
 }
 .gallery-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
+/* 카드 워터마크는 이미지 파일에 직접 구워짐(baked) → CSS 오버레이 불필요 */
 
 .gallery-empty {
   text-align: center; color: var(--ink-soft);
@@ -407,12 +408,26 @@ body.modal-open { overflow: hidden; }
   display: flex; flex-direction: column; align-items: center;
   animation: modalIn .3s var(--ease);
 }
+.img-modal__figure {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  max-width: 100%;
+}
 .img-modal__img {
   max-width: 100%; max-height: 78vh;
   object-fit: contain;
   border-radius: 8px;
   background: #111;
   box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
+}
+/* 모달 워터마크: 흰색 반투명 'eunjoo' 타일 반복 */
+.img-modal__wm {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  border-radius: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='240'%20height='160'%3E%3Ctext%20x='12'%20y='95'%20transform='rotate(-30%20120%2080)'%20font-family='Montserrat'%20font-size='30'%20font-weight='700'%20fill='%23ffffff'%20fill-opacity='0.22'%3Eeunjoo%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
 }
 .img-modal__close {
   position: absolute; top: -16px; right: -16px;
