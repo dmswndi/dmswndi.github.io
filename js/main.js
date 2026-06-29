@@ -214,6 +214,14 @@
     });
   }
 
+  /* ---------- 5-3. 이미지 다운로드 방지(우클릭/드래그) ---------- */
+  document.addEventListener("contextmenu", (e) => {
+    if (e.target.closest("img, .img-modal, .gallery-card")) e.preventDefault();
+  });
+  document.addEventListener("dragstart", (e) => {
+    if (e.target && e.target.tagName === "IMG") e.preventDefault();
+  });
+
   /* ---------- 6. 연도 자동 ---------- */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
