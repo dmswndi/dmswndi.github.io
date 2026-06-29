@@ -1,7 +1,7 @@
 /* =========================================================
    EUNJOO PET SALON — interactions
    - 전 기기 공통: 네이티브 세로 스크롤(스냅·풀페이지 스와이프 없음)
-   - 갤러리 가로 마퀴 + GLightbox 확대
+   - 갤러리 가로 마퀴 + 이미지 클릭 시 커스텀 모달 팝업 + 데스크탑 좌우 넘김 화살표
    - 진입 애니메이션 / 헤더·도트 활성 표시 (IntersectionObserver)
    ========================================================= */
 
@@ -80,22 +80,19 @@
     });
   });
 
-  /* ---------- 5. 갤러리 렌더: 2줄 자동 흐름(마퀴) + Lightbox ---------- */
+  /* ---------- 5. 갤러리 렌더: 2줄 자동 흐름(마퀴) ---------- */
   const topTrack = document.getElementById("gallery-top");
   const bottomTrack = document.getElementById("gallery-bottom");
   const marqueeWrap = document.querySelector(".gallery-marquee");
-  let lightbox = null;
   const SECONDS_PER_CARD = 3; // 카드 1장이 지나가는 데 걸리는 시간(초) — 클수록 느림
 
   function cardHTML(it, clone) {
     const src = it.image || "";
     const cap = (it.caption || "").replace(/"/g, "&quot;");
-    const cls = "gallery-card" + (clone ? " is-clone" : " glightbox");
-    const attrs = clone
-      ? 'aria-hidden="true" tabindex="-1"'
-      : 'data-gallery="grooming" data-glightbox="title: ' + cap + '"';
+    const cls = "gallery-card" + (clone ? " is-clone" : "");
+    const aria = clone ? ' aria-hidden="true" tabindex="-1"' : "";
     return (
-      '<a class="' + cls + '" href="' + src + '" ' + attrs + ">" +
+      '<a class="' + cls + '" href="' + src + '" data-caption="' + cap + '"' + aria + ">" +
         '<img src="' + src + '" alt="' + cap + '" loading="lazy" />' +
         (cap ? '<figcaption><span class="cap-title">' + cap + "</span></figcaption>" : "") +
       "</a>"
@@ -140,18 +137,82 @@
     const bottom = items.filter((it) => (it.row || "top") === "bottom");
     buildRow(topTrack, top);
     buildRow(bottomTrack, bottom);
-
-    if (lightbox) lightbox.destroy();
-    // buildRow가 rAF 안에서 DOM을 채우므로, 그 다음 프레임에 라이트박스 바인딩
-    requestAnimationFrame(() => {
-      lightbox = GLightbox({ selector: ".glightbox", loop: true, touchNavigation: true });
-    });
   }
 
   fetch("data/gallery.json", { cache: "no-store" })
     .then((r) => { if (!r.ok) throw new Error("gallery.json " + r.status); return r.json(); })
     .then((data) => renderGallery(data.items || data || []))
     .catch((err) => { console.error("[gallery]", err); renderGallery([]); });
+
+  /* ---------- 5-1. 이미지 클릭 → 모달 팝업 ---------- */
+  const modal = document.getElementById("img-modal");
+  const modalImg = document.getElementById("img-modal-img");
+  const modalTag = document.getElementById("img-modal-tag");
+
+  function openModal(src, caption) {
+    if (!modal || !src) return;
+    modalImg.src = src;
+    modalImg.alt = caption || "";
+    modalTag.textContent = caption || "";
+    modal.hidden = false;
+    document.body.classList.add("modal-open");
+  }
+  function closeModal() {
+    if (!modal) return;
+    modal.hidden = true;
+    modalImg.removeAttribute("src");
+    document.body.classList.remove("modal-open");
+  }
+  if (modal) {
+    modal.addEventListener("click", (e) => { if (e.target.closest("[data-close]")) closeModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
+  }
+  if (marqueeWrap) {
+    marqueeWrap.addEventListener("click", (e) => {
+      const card = e.target.closest(".gallery-card");
+      if (!card) return;
+      e.preventDefault();
+      const href = card.getAttribute("href");
+      let cap = card.dataset.caption || "";
+      if (!cap && href) cap = decodeURIComponent(href.split("/").pop().replace(/\.[^.]+$/, ""));
+      openModal(href, cap);
+    });
+  }
+
+  /* ---------- 5-2. 줄별 화살표로 한 장씩 넘김(데스크탑, 슬라이드 양 끝) ---------- */
+  const ONE_CARD_MS = SECONDS_PER_CARD * 1000;
+  const trackById = { top: topTrack, bottom: bottomTrack };
+
+  function stepTrack(track, dir) { // dir: +1 다음, -1 이전
+    if (!track || !track.getAnimations) return;
+    const anim = track.getAnimations()[0];
+    if (!anim || !anim.effect) return;
+    const dur = anim.effect.getComputedTiming().duration;
+    if (!dur || !isFinite(dur)) return;
+    let cur = anim.currentTime;
+    cur = typeof cur === "number" ? cur : (cur && cur.value) || 0;
+    const start = cur;
+    const delta = dir * ONE_CARD_MS;
+    const t0 = performance.now();
+    const D = 420;
+    (function frame(now) {
+      const p = Math.min(1, (now - t0) / D);
+      const e = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      let v = start + delta * e;
+      v = ((v % dur) + dur) % dur;
+      try { anim.currentTime = v; } catch (_) {}
+      if (p < 1) requestAnimationFrame(frame);
+    })(t0);
+  }
+
+  if (marqueeWrap) {
+    marqueeWrap.addEventListener("click", (e) => {
+      const nav = e.target.closest(".row-nav");
+      if (!nav) return;
+      e.preventDefault();
+      stepTrack(trackById[nav.dataset.row], parseInt(nav.dataset.dir, 10));
+    });
+  }
 
   /* ---------- 6. 연도 자동 ---------- */
   const yearEl = document.getElementById("year");

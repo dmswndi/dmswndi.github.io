@@ -300,7 +300,10 @@ ul { list-style: none; margin: 0; padding: 0; }
   gap: clamp(14px, 2vh, 22px);
   width: 100%;
 }
-.marquee-row { overflow: hidden; width: 100%; }
+.marquee-row { overflow: hidden; width: 100%; position: relative; }
+/* 일부 브라우저에서 뜨는 가로 스크롤바 숨김 */
+.marquee-row { scrollbar-width: none; -ms-overflow-style: none; }
+.marquee-row::-webkit-scrollbar { width: 0; height: 0; display: none; }
 .marquee-track {
   display: flex; width: max-content;
   animation: marquee-left var(--marquee-dur, 40s) linear infinite;
@@ -308,13 +311,41 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .marquee-group { display: flex; }
 .marquee-row--bottom .marquee-track { animation-name: marquee-right; }
-/* 마우스(hover 가능) 기기에서만 일시정지 — 터치 기기는 스크롤해도 안 멈춤 */
+/* 마우스(hover 가능) 기기: 해당 줄 이미지에 호버할 때만 그 줄 흐름 일시정지 + 화살표 노출 */
 @media (hover: hover) and (pointer: fine) {
-  .gallery-marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee-row:hover .marquee-track { animation-play-state: paused; }
+  .marquee-row:hover .row-nav {
+    opacity: 1; pointer-events: auto;
+    transform: translateY(-50%) scale(1);
+  }
 }
 
 @keyframes marquee-left  { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
 @keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
+
+/* 줄(슬라이드)별 좌우 넘김 화살표 — 흑백 테마, 슬라이드 양 끝에 배치 */
+.row-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 6;
+  width: 48px; height: 48px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  background: rgba(0, 0, 0, .55);
+  border: 1.5px solid rgba(255, 255, 255, .75);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0; pointer-events: none;          /* 호버 전엔 숨김 + 클릭 통과 */
+  transform: translateY(-50%) scale(.92);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease), background .2s, color .2s;
+}
+.row-nav--prev { left: clamp(8px, 1.4vw, 18px); }
+.row-nav--next { right: clamp(8px, 1.4vw, 18px); }
+.row-nav svg { width: 22px; height: 22px; display: block; }
+.row-nav:hover { background: #fff; color: #000; border-color: #fff; }
+.row-nav:active { transform: translateY(-50%) scale(.85); }
 
 .gallery-card {
   position: relative; display: block; flex: 0 0 auto;
@@ -323,21 +354,86 @@ ul { list-style: none; margin: 0; padding: 0; }
   margin-right: clamp(14px, 1.5vw, 22px);
   overflow: hidden; background: #ddd;
 }
+/* 이미지 이름: 왼쪽 하단에 검정 라운드 태그로 상시 표시 */
 .gallery-card figcaption {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 14px;
-  background: linear-gradient(transparent, rgba(0,0,0,.72));
-  color: #fff;
-  transform: translateY(8px); opacity: 0;
-  transition: all .4s var(--ease);
+  position: absolute; left: 12px; bottom: 12px;
+  max-width: calc(100% - 24px);
+  z-index: 2;
 }
-.gallery-card:hover figcaption { transform: translateY(0); opacity: 1; }
+.gallery-card .cap-title {
+  display: inline-block;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .8);
+  color: #fff;
+  font-size: .8rem; font-weight: 600; letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+  max-width: 100%;
+}
 .gallery-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
-.gallery-card .cap-title { font-size: .9rem; font-weight: 600; }
 
 .gallery-empty {
   text-align: center; color: var(--ink-soft);
   padding: 60px 0; font-size: .9rem; letter-spacing: .04em;
+}
+
+/* ================== 이미지 모달 팝업 ================== */
+body.modal-open { overflow: hidden; }
+.img-modal {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(16px, 4vw, 48px);
+}
+.img-modal[hidden] { display: none; }
+.img-modal__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0, 0, 0, .82);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: modalFade .25s var(--ease);
+}
+.img-modal__panel {
+  position: relative;
+  max-width: min(92vw, 1000px);
+  display: flex; flex-direction: column; align-items: center;
+  animation: modalIn .3s var(--ease);
+}
+.img-modal__img {
+  max-width: 100%; max-height: 78vh;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #111;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
+}
+.img-modal__close {
+  position: absolute; top: -16px; right: -16px;
+  width: 46px; height: 46px;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff; color: #000;
+  border: none; border-radius: 50%;
+  cursor: pointer; z-index: 2;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .45);
+  transition: transform .2s var(--ease);
+}
+.img-modal__close:hover { transform: scale(1.08); }
+.img-modal__close svg { width: 22px; height: 22px; }
+.img-modal__tag {
+  margin-top: 18px;
+  padding: 9px 20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(255, 255, 255, .4);
+  color: #fff;
+  font-size: .92rem; font-weight: 600; letter-spacing: .02em;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.img-modal__tag:empty { display: none; }
+@keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modalIn { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: none; } }
+@media (max-width: 560px) {
+  .img-modal__close { top: -10px; right: -10px; width: 40px; height: 40px; }
 }
 
 /* ---------- SERVICES ---------- */
@@ -471,7 +567,6 @@ body.on-dark .site-nav a.is-active { color: #fff; }
   [data-anim] { opacity: 1 !important; }
   .badge, .scroll-hint span::after { animation: none; }
   html { scroll-behavior: auto; }
-  /* 갤러리 마퀴는 핵심 콘텐츠라 유지하되 속도만 살짝 늦춤 + 손으로 스크롤도 가능 */
+  /* 갤러리 마퀴는 핵심 콘텐츠라 유지하되 속도만 살짝 늦춤 */
   .marquee-track { animation-duration: calc(var(--marquee-dur, 40s) * 1.6); }
-  .marquee-row { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
