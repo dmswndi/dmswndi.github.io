@@ -8,7 +8,7 @@
     {
       "image": "/images/gallery/bichon-ear.jpg",
       "caption": "비숑 귀툭튀컷",
-      "row": "bottom"
+      "row": "top"
     },
     {
       "image": "/images/gallery/coton.jpg",
@@ -29,6 +29,76 @@
       "image": "/images/gallery/img_0674.jpg",
       "caption": "말티푸 귀툭튀컷",
       "row": "bottom"
+    },
+    {
+      "caption": "비숑 양송이컷",
+      "row": "top",
+      "image": "/images/gallery/img_0371.jpg"
+    },
+    {
+      "caption": "포메라니안 물개컷",
+      "row": "bottom",
+      "image": "/images/gallery/img_0943.jpg"
+    },
+    {
+      "caption": "비숑귀툭튀",
+      "row": "top",
+      "image": "/images/gallery/img_1303.jpg"
+    },
+    {
+      "caption": "비숑 하이바컷",
+      "row": "bottom",
+      "image": "/images/gallery/img_2132.jpg"
+    },
+    {
+      "caption": "폼스키 가위컷",
+      "row": "bottom",
+      "image": "/images/gallery/img_3410.jpg"
+    },
+    {
+      "caption": "비숑 하이바컷",
+      "row": "top",
+      "image": "/images/gallery/img_3865.jpg"
+    },
+    {
+      "caption": "비숑 귀툭튀컷",
+      "row": "bottom",
+      "image": "/images/gallery/img_4027.jpg"
+    },
+    {
+      "caption": "비숑 귀툭튀컷",
+      "row": "top",
+      "image": "/images/gallery/img_4049.png"
+    },
+    {
+      "caption": "포메 곰돌이컷",
+      "row": "top",
+      "image": "/images/gallery/img_4131.jpg"
+    },
+    {
+      "caption": "비숑 귀툭튀컷",
+      "row": "top",
+      "image": "/images/gallery/img_4180.png"
+    },
+    {
+      "caption": "꼬똥 드 툴레아 가위컷",
+      "row": "top",
+      "image": "/images/gallery/img_7403.png"
+    },
+    {
+      "caption": "말티즈 곰돌이컷",
+      "row": "bottom",
+      "image": "/images/gallery/img_8111.jpg"
+    },
+    {
+      "caption": "비숑 귀툭튀컷",
+      "row": "top",
+      "image": "/images/gallery/img_4398.png"
+    },
+    {
+      "caption": "포메라니안 물개컷",
+      "row": "bottom",
+      "image": "/images/gallery/img_8366.jpg"
     }
   ]
 }
