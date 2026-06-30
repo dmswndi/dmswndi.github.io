@@ -316,7 +316,7 @@ body.on-dark .site-header {
   gap: clamp(14px, 2vh, 22px);
   width: 100%;
 }
-.marquee-row { overflow: hidden; width: 100%; position: relative; }
+.marquee-row { overflow: hidden; width: 100%; position: relative; touch-action: pan-y; }
 /* 일부 브라우저에서 뜨는 가로 스크롤바 숨김 */
 .marquee-row { scrollbar-width: none; -ms-overflow-style: none; }
 .marquee-row::-webkit-scrollbar { width: 0; height: 0; display: none; }

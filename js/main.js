@@ -243,15 +243,17 @@
       const dx = t.clientX - startX, dy = t.clientY - startY;
       if (!axis && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
         axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+        // 세로 스크롤이면 멈추지 말고 계속 흐르게(스크롤 튐 방지)
+        if (axis === "y") { try { anim.play(); } catch (_) {} }
       }
       if (axis === "x") {
-        e.preventDefault();                              // 가로 스와이프: 페이지 세로 스크롤 막고 슬라이드 이동
+        // touch-action: pan-y 덕에 브라우저가 가로 스크롤 안 함 → preventDefault 불필요(passive 유지)
         dragMoved = true;
         let v = startTime + dirSign * dx * tpp;          // 카드가 손가락을 따라 이동
         v = ((v % dur) + dur) % dur;
         try { anim.currentTime = v; } catch (_) {}
       }
-    }, { passive: false });
+    }, { passive: true });
 
     const resume = () => { if (anim) { try { anim.play(); } catch (_) {} } };
     row.addEventListener("touchend", resume);
