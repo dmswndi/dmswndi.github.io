@@ -29,7 +29,8 @@
 
   /* ---------- 2. 진입 애니메이션 ---------- */
   function animate(slideEl) {
-    if (!slideEl) return;
+    if (!slideEl || slideEl.dataset.animated) return; // 섹션당 1회만 — 재진입 시 깜빡임 방지
+    slideEl.dataset.animated = "1";
     const targets = slideEl.querySelectorAll("[data-anim]");
     if (!targets.length) return;
     if (!hasGSAP || prefersReduced) {
@@ -55,7 +56,9 @@
   // 풀페이지 스와이프/스냅 제거 → 스크롤한 만큼 자유롭게 이동.
   // 진입 애니메이션과 헤더/도트 활성화는 IntersectionObserver로 처리.
   const animObserver = new IntersectionObserver(
-    (entries) => entries.forEach((e) => { if (e.isIntersecting) animate(e.target); }),
+    (entries, obs) => entries.forEach((e) => {
+      if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); }
+    }),
     { threshold: 0.2 }
   );
   const activeObserver = new IntersectionObserver(
