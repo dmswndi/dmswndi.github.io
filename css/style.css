@@ -355,6 +355,9 @@ img {
 .row-nav:hover { background: #fff; color: #000; border-color: #fff; }
 .row-nav:active { transform: translateY(-50%) scale(.85); }
 
+/* 누르는 동안 흐름 멈춤(데스크탑 hover + 모바일 터치 공통) */
+.marquee-row.is-pressed .marquee-track { animation-play-state: paused; }
+
 .gallery-card {
   position: relative; display: block; flex: 0 0 auto;
   width: clamp(250px, 28vw, 350px);

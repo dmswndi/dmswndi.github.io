@@ -214,6 +214,15 @@
     });
   }
 
+  /* ---------- 5-2b. 모바일: 손가락으로 누르는 동안만 그 줄 흐름 멈춤 ---------- */
+  document.querySelectorAll(".marquee-row").forEach((row) => {
+    const press = () => row.classList.add("is-pressed");
+    const release = () => row.classList.remove("is-pressed");
+    row.addEventListener("touchstart", press, { passive: true });
+    row.addEventListener("touchend", release);
+    row.addEventListener("touchcancel", release);
+  });
+
   /* ---------- 5-3. 이미지 다운로드 방지(우클릭/드래그) ---------- */
   document.addEventListener("contextmenu", (e) => {
     if (e.target.closest("img, .img-modal, .gallery-card")) e.preventDefault();
