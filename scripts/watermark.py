@@ -18,6 +18,7 @@ GAL = "images/gallery"
 BAK = os.path.join(GAL, "_originals")          # 로컬 백업(비공개)
 MARK = os.path.join(GAL, ".watermarked.txt")   # 처리 완료 목록(커밋)
 TEXT = "eunjoo"
+MAX_DIM = 1600                                  # 표시/모달용 최대 변(모바일 깜빡임·메모리 완화)
 FORCE_ALL = "--all" in sys.argv
 
 FONT_CANDIDATES = [
@@ -85,6 +86,8 @@ def main():
             Image.open(f).save(bak)   # 최초 1회 원본 백업(로컬/비공개)
             src = bak
         base = Image.open(src).convert("RGBA")
+        if max(base.size) > MAX_DIM:           # 과한 해상도 축소
+            base.thumbnail((MAX_DIM, MAX_DIM), Image.LANCZOS)
         W, H = base.size
         out = Image.alpha_composite(base, make_watermark(W, H))
         ext = os.path.splitext(f)[1].lower()

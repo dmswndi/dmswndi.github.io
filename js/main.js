@@ -96,7 +96,7 @@
     const aria = clone ? ' aria-hidden="true" tabindex="-1"' : "";
     return (
       '<a class="' + cls + '" href="' + src + '" data-caption="' + cap + '"' + aria + ">" +
-        '<img src="' + src + '" alt="' + cap + '" loading="lazy" />' +
+        '<img src="' + src + '" alt="' + cap + '" loading="lazy" decoding="async" />' +
         (cap ? '<figcaption><span class="cap-title">' + cap + "</span></figcaption>" : "") +
       "</a>"
     );
