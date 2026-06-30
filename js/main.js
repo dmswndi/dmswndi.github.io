@@ -167,11 +167,13 @@
     modal.addEventListener("click", (e) => { if (e.target.closest("[data-close]")) closeModal(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
   }
+  let dragMoved = false; // 모바일에서 좌우로 끌었으면(스와이프) 모달을 열지 않음
   if (marqueeWrap) {
     marqueeWrap.addEventListener("click", (e) => {
       const card = e.target.closest(".gallery-card");
       if (!card) return;
       e.preventDefault();
+      if (dragMoved) { dragMoved = false; return; }
       const href = card.getAttribute("href");
       let cap = card.dataset.caption || "";
       if (!cap && href) cap = decodeURIComponent(href.split("/").pop().replace(/\.[^.]+$/, ""));
@@ -214,13 +216,46 @@
     });
   }
 
-  /* ---------- 5-2b. 모바일: 손가락으로 누르는 동안만 그 줄 흐름 멈춤 ---------- */
+  /* ---------- 5-2b. 모바일: 누르면 멈춤 + 좌우로 끌면 직접 이동(스와이프) ---------- */
+  // CSS 자동 흐름(Animation)의 currentTime을 손가락으로 스크럽 → 떼면 그 자리에서 다시 흐름
   document.querySelectorAll(".marquee-row").forEach((row) => {
-    const press = () => row.classList.add("is-pressed");
-    const release = () => row.classList.remove("is-pressed");
-    row.addEventListener("touchstart", press, { passive: true });
-    row.addEventListener("touchend", release);
-    row.addEventListener("touchcancel", release);
+    const track = row.querySelector(".marquee-track");
+    if (!track) return;
+    const dirSign = row.classList.contains("marquee-row--bottom") ? 1 : -1;
+    let anim = null, startX = 0, startY = 0, startTime = 0, tpp = 0, dur = 0, axis = null;
+
+    row.addEventListener("touchstart", (e) => {
+      anim = track.getAnimations ? track.getAnimations()[0] : null;
+      if (!anim || !anim.effect) { anim = null; return; }
+      dur = anim.effect.getComputedTiming().duration;
+      const groupW = (track.scrollWidth || 1) / 2;     // 두 그룹 → 한 그룹 폭
+      tpp = (dur && groupW) ? dur / groupW : 0;         // 픽셀당 시간(ms)
+      try { anim.pause(); } catch (_) {}                // 누르는 동안 멈춤
+      const cur = anim.currentTime;
+      startTime = typeof cur === "number" ? cur : (cur && cur.value) || 0;
+      const t = e.touches[0];
+      startX = t.clientX; startY = t.clientY; axis = null; dragMoved = false;
+    }, { passive: true });
+
+    row.addEventListener("touchmove", (e) => {
+      if (!anim || !tpp || !dur) return;
+      const t = e.touches[0];
+      const dx = t.clientX - startX, dy = t.clientY - startY;
+      if (!axis && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+        axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+      }
+      if (axis === "x") {
+        e.preventDefault();                              // 가로 스와이프: 페이지 세로 스크롤 막고 슬라이드 이동
+        dragMoved = true;
+        let v = startTime + dirSign * dx * tpp;          // 카드가 손가락을 따라 이동
+        v = ((v % dur) + dur) % dur;
+        try { anim.currentTime = v; } catch (_) {}
+      }
+    }, { passive: false });
+
+    const resume = () => { if (anim) { try { anim.play(); } catch (_) {} } };
+    row.addEventListener("touchend", resume);
+    row.addEventListener("touchcancel", resume);
   });
 
   /* ---------- 5-3. 이미지 다운로드 방지(우클릭/드래그) ---------- */

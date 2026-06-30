@@ -90,9 +90,17 @@ img {
   justify-content: space-between;
   gap: 24px;
   padding: 0 clamp(20px, 4vw, 56px);
-  pointer-events: none;        /* 자식만 클릭 가능 */
+  /* 불투명 배경으로 본문이 헤더 밑으로 가려지게 */
+  background: var(--bg);
+  box-shadow: 0 1px 0 var(--line), 0 6px 20px rgba(0, 0, 0, .05);
+  transition: background .4s var(--ease), box-shadow .4s var(--ease);
 }
 .site-header > * { pointer-events: auto; }
+/* 다크(Contact) 섹션에서는 헤더도 어둡게 */
+body.on-dark .site-header {
+  background: var(--dark);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .1), 0 6px 20px rgba(0, 0, 0, .25);
+}
 
 .brand { display: flex; align-items: center; gap: 12px; color: var(--ink); }
 .brand-logo { width: 46px; height: 46px; }
@@ -354,9 +362,6 @@ img {
 .row-nav svg { width: 22px; height: 22px; display: block; }
 .row-nav:hover { background: #fff; color: #000; border-color: #fff; }
 .row-nav:active { transform: translateY(-50%) scale(.85); }
-
-/* 누르는 동안 흐름 멈춤(데스크탑 hover + 모바일 터치 공통) */
-.marquee-row.is-pressed .marquee-track { animation-play-state: paused; }
 
 .gallery-card {
   position: relative; display: block; flex: 0 0 auto;
